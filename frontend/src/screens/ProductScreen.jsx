@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Rating from '../components/Rating';
 import { useDispatch, useSelector } from 'react-redux';
+
+import Rating from '../components/Rating';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { detailsProduct } from '../actions/productActions';
+
 function ProductScreen(props) {
   const dispatch = useDispatch();
   const productId = props.match.params.id;
   const productDetails = useSelector(state => state.productDetails);
   const { loading, product, error } = productDetails;
+
   useEffect(() => {
     dispatch(detailsProduct(productId));
   }, [dispatch, productId]);
@@ -24,6 +27,7 @@ function ProductScreen(props) {
   //   numReviews,
   //   countInStock,
   // } =  product ;
+
   return (
     <div>
       {loading ? (
