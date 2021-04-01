@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
+import CartScreen from './screens/CartScreen';
 function App() {
   return (
     <Router>
@@ -11,6 +12,7 @@ function App() {
         <main>
           <Route exact path='/' component={HomeScreen}></Route>
           <Route path='/product/:id' component={ProductScreen}></Route>
+          <Route path='/cart/:id?' component={CartScreen}></Route>
         </main>
         <footer className="row center">All right reserved.</footer>
       </div>
