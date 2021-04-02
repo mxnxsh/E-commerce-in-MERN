@@ -4,20 +4,19 @@ const data = {
     {
       name: 'Manish',
       email: 'admin@example.com',
-      password: bcrypt.hashAsync('123456', 8),
+      password: bcrypt.hashSync('123456', 8),
       isadmin:true
     },
     {
       name: 'Mayank',
       email: 'user@example.com',
-      password: bcrypt.hashAsync('123456', 8),
+      password: bcrypt.hashSync('123456', 8),
       isadmin:false
     }
   ],
   products: [
     {
-      _id: '1',
-      name: 'Nike Slim Shirt',
+      name: 'Kite Slim Shirt',
       category: 'Shirts',
       image: '/images/shirt1.jpg',
       price: 120,
@@ -28,7 +27,6 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '2',
       name: 'Adidas Fit Shirt',
       category: 'Shirts',
       image: '/images/shirt2.png',
@@ -40,7 +38,6 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '3',
       name: 'Lacoste Free Shirt',
       category: 'Shirts',
       image: '/images/shirt3.png',
@@ -52,8 +49,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '4',
-      name: 'Lacoste Free Shirt',
+      name: 'Lacoste Frees Shirt',
       category: 'Shirts',
       image: '/images/shirt4.png',
       price: 220,
@@ -64,7 +60,6 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '5',
       name: 'Nike Slim Pant',
       category: 'Pants',
       image: '/images/pant1.jpg',
@@ -76,7 +71,6 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '6',
       name: 'Puma Slim Pant',
       category: 'Pants',
       image: '/images/pant2.png',
@@ -88,8 +82,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '7',
-      name: 'Adidas Fit Pant',
+      name: 'Adida Fit Pant',
       category: 'Pants',
       image: '/images/pant3.png',
       price: 139,
@@ -100,8 +93,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '8',
-      name: 'Adidas Fit Pant',
+      name: 'Adidas Cloth Fit Pant',
       category: 'Pants',
       image: '/images/pant4.png',
       price: 139,
@@ -112,8 +104,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '9',
-      name: 'Adidas Fit Pant',
+      name: 'Adidas Pant',
       category: 'Pants',
       image: '/images/t-shirt1.png',
       price: 139,
@@ -124,8 +115,7 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '10',
-      name: 'Adidas Fit Pant',
+      name: 'Adidas Fits Pant',
       category: 'Pants',
       image: '/images/t-shirt2.png',
       price: 139,
