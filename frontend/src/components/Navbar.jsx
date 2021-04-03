@@ -1,10 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { signOut } from '../actions/userActions';
 
 const Navbar = () => {
   const cart = useSelector(state => state.cart);
   const { cartItems } = cart;
+
+  const userSignIn = useSelector(state => state.userSignIn);
+  const { userInfo } = userSignIn;
+
+  const dispatch = useDispatch()
+  const signOutHandler = () => {
+    dispatch(signOut())
+  };
+
   return (
     <header className='row'>
       <div>
@@ -19,7 +29,22 @@ const Navbar = () => {
             <span className='badge'>{cartItems.length}</span>
           )}
         </Link>
-        <Link to='/signin'>Signin</Link>
+        {userInfo ? (
+          <div className='dropdown'>
+            <Link to='#'>
+              {userInfo.name} <i className='fa fa-caret-down'></i>{' '}
+            </Link>
+            <ul className='dropdown-content'>
+              <li>
+                <Link to='#signout' onClick={signOutHandler}>
+                  Sign Out
+                </Link>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <Link to='/signin'>Signin</Link>
+        )}
       </div>
     </header>
   );

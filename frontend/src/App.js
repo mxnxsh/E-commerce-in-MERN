@@ -5,6 +5,8 @@ import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
 import SignInScreen from './screens/SignInScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import ShippingAddressScreen from './screens/ShippingAddressScreen';
 function App() {
   return (
     <Router>
@@ -15,6 +17,8 @@ function App() {
           <Route path='/product/:id' component={ProductScreen}></Route>
           <Route path='/cart/:id?' component={CartScreen}></Route>
           <Route path='/signin' component={SignInScreen}></Route>
+          <Route path='/register' component={RegisterScreen}></Route>
+          <Route path='/shipping'  component={ShippingAddressScreen}></Route>
         </main>
         <footer className="row center">All right reserved.</footer>
       </div>

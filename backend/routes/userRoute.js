@@ -48,4 +48,29 @@ userRouter.post(
   })
 );
 
+userRouter.post(
+  '/register',
+  expressAsyncHandler(async (req, res) => {
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 8),
+    });
+    try {
+      const createdUser = await user.save();
+      const { _id, name, email, isAdmin, } = createdUser
+      res.send({
+        _id,
+        name,
+        email,
+        isAdmin,
+        token: generateToken(createdUser),
+      });
+    } catch (error) {
+      res.status(512).send({message:'Email already exist'})
+    }
+
+  })
+);
+
 export default userRouter;
