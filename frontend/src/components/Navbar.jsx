@@ -10,9 +10,9 @@ const Navbar = () => {
   const userSignIn = useSelector(state => state.userSignIn);
   const { userInfo } = userSignIn;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const signOutHandler = () => {
-    dispatch(signOut())
+    dispatch(signOut());
   };
 
   return (
