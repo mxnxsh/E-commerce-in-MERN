@@ -2,8 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-import productRoute from './routes/productRoute.js'
-import userRoute from './routes/userRoute.js'
+import productRouter from './routes/productRouter.js'
+import userRouter from './routes/userRouter.js'
+import orderRouter from './routes/orderRouter.js';
 
 dotenv.config();
 
@@ -19,8 +20,9 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/amazona', {
 });
 
 
-app.use('/api/products', productRoute);
-app.use('/api/users', userRoute);
+app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello word')

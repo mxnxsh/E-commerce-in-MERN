@@ -6,19 +6,27 @@ import { addToCart ,removeFromCart} from '../actions/cartActions';
 import MessageBox from '../components/MessageBox';
 
 const CartScreen = props => {
+  const cart = useSelector(state => state.cart);
+  const { cartItems } = cart;
+
+  const userSignIn = useSelector(state => state.userSignIn);
+  const { userInfo } = userSignIn;
+  
   const dispatch = useDispatch();
 
   const productId = props.match.params.id;
   const qty = props.location.search
     ? Number(props.location.search.split('=')[1])
     : 1;
-  const cart = useSelector(state => state.cart);
-  const { cartItems } = cart;
+  
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
     }
-  }, [dispatch, productId, qty]);
+    if (!userInfo) {
+      return props.history.push('/signin')
+    }
+  }, [dispatch, productId, qty,props.history,userInfo]);
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))

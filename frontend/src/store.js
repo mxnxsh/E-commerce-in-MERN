@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import { productDetailsReducer, productListReducer } from "./reducers/productReducers";
 import { cartReducer } from './reducers/cartReducers';
 import { userRegisterReducer, userSignInReducer } from './reducers/userReducers';
+import { orderCreateReducer } from './reducers/orderReducers';
 
 const initialState = {
   userSignIn: {
@@ -15,10 +16,10 @@ const initialState = {
     cartItems: localStorage.getItem('cartItems')
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
-      shippingAddress: localStorage.getItem('shippingAddress')
+    shippingAddress: localStorage.getItem('shippingAddress')
       ? JSON.parse(localStorage.getItem('shippingAddress'))
       : {},
-      paymentMethod:'PayPal'
+    paymentMethod: 'PayPal'
   },
 };
 
@@ -28,6 +29,7 @@ const reducer = combineReducers({
   cart: cartReducer,
   userSignIn: userSignInReducer,
   userRegister: userRegisterReducer,
+  orderCreate: orderCreateReducer,
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
