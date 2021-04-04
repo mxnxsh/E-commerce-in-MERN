@@ -7,8 +7,8 @@ const ShippingAddressScreen = props => {
   const userSignIn = useSelector(state => state.userSignIn);
   const { userInfo } = userSignIn;
 
-  const cart = useSelector(state => state.cart)
-  const { shippingAddress,cartItems } = cart;
+  const cart = useSelector(state => state.cart);
+  const { shippingAddress, cartItems } = cart;
 
   if (!userInfo) {
     props.history.push('/signin');
@@ -16,17 +16,19 @@ const ShippingAddressScreen = props => {
   if (cartItems.length === 0) {
     props.history.push('/');
   }
-  
+
   const [fullName, setFullName] = useState(shippingAddress.fullName);
   const [address, setAddress] = useState(shippingAddress.address);
   const [city, setCity] = useState(shippingAddress.city);
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
   const [country, setCountry] = useState(shippingAddress.country);
   const dispatch = useDispatch();
-  const submitHandler = (e) => {
+  const submitHandler = e => {
     e.preventDefault();
-    dispatch(saveShippingAddress({fullName,address,city,postalCode,country}))
-    props.history.push('/payment')
+    dispatch(
+      saveShippingAddress({ fullName, address, city, postalCode, country })
+    );
+    props.history.push('/payment');
   };
   return (
     <div>
@@ -41,7 +43,7 @@ const ShippingAddressScreen = props => {
             type='text'
             id='fullName'
             placeholder='Enter full name'
-            value={fullName}
+            value={fullName || ''}
             onChange={e => setFullName(e.target.value)}
             required
           ></input>
@@ -52,7 +54,7 @@ const ShippingAddressScreen = props => {
             type='text'
             id='address'
             placeholder='Enter address'
-            value={address}
+            value={address || ''}
             onChange={e => setAddress(e.target.value)}
             required
           ></input>
@@ -63,7 +65,7 @@ const ShippingAddressScreen = props => {
             type='text'
             id='city'
             placeholder='Enter city'
-            value={city}
+            value={city || ''}
             onChange={e => setCity(e.target.value)}
             required
           ></input>
@@ -74,7 +76,7 @@ const ShippingAddressScreen = props => {
             type='text'
             id='postalCode'
             placeholder='Enter postal code'
-            value={postalCode}
+            value={postalCode || ''}
             onChange={e => setPostalCode(e.target.value)}
             required
           ></input>
@@ -85,7 +87,7 @@ const ShippingAddressScreen = props => {
             type='text'
             id='country'
             placeholder='Enter country'
-            value={country}
+            value={country || ''}
             onChange={e => setCountry(e.target.value)}
             required
           ></input>
