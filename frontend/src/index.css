@@ -84,6 +84,14 @@ button {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+input[type='radio'] {
+  transform: scale(2);
+  cursor: pointer;
+
+}
+.pointer {
+  cursor: pointer;
+}
 button {
   background-color: #f8f8f8;
   cursor: pointer;
@@ -110,7 +118,7 @@ a.brand {
   font-size: 3rem;
   font-size: bold;
 }
-.badge{
+.badge {
   background-color: #f02020;
   color: #ffffff;
   border-radius: 50%;
@@ -137,14 +145,14 @@ a.brand {
 .col-2 {
   flex: 2 1 50rem;
 }
-.min-30{
+.min-30 {
   min-width: 30rem;
 }
 /* image */
 img {
   border-radius: 0.5rem;
 }
-img.small{
+img.small {
   max-width: 5rem;
   width: 100%;
 }
@@ -182,7 +190,7 @@ img.large {
   color: var(--black);
 }
 /* Alert */
-.loading{
+.loading {
   display: block !important;
 }
 .success {

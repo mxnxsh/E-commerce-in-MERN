@@ -13,7 +13,7 @@ const PaymentMethodScreen = props => {
   useEffect(() => {
     if (!userInfo) return props.history.push('/signin');
   }, [userInfo, props.history]);
-  
+
   if (!shippingAddress.address) {
     props.history.push('/shipping');
   }
@@ -33,30 +33,36 @@ const PaymentMethodScreen = props => {
           <h1>Payment Method</h1>
         </div>
         <div>
-          <div>
-            <input
-              type='radio'
-              id='paypal'
-              value='paypal'
-              name='paymentMethod'
-              required
-              checked
-              onChange={e => setPaymentMethod(e.target.value)}
-            />
-            <label htmlFor='paypal'>PayPal</label>
+          <div >
+            <label htmlFor='paypal' className='pointer'>
+              <input
+                type='radio'
+                id='paypal'
+                value='paypal'
+                name='paymentMethod'
+                required
+                checked
+                onChange={e => setPaymentMethod(e.target.value)}
+              />
+              {'      '}
+              PayPal
+            </label>
           </div>
         </div>
         <div>
           <div>
-            <input
-              type='radio'
-              id='stripe'
-              value='stripe'
-              name='paymentMethod'
-              required
-              onChange={e => setPaymentMethod(e.target.value)}
-            />
-            <label htmlFor='stripe'>Stripe</label>
+            <label htmlFor='stripe' className='pointer'>
+              <input
+                type='radio'
+                id='stripe'
+                value='stripe'
+                name='paymentMethod'
+                required
+                onChange={e => setPaymentMethod(e.target.value)}
+              />
+              {'      '}
+              Stripe
+            </label>
           </div>
         </div>
         <div>
