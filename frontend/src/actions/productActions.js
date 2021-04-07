@@ -14,9 +14,12 @@ export const listProduct = () => async (dispatch) => {
       payload: data
     });
   } catch (error) {
+    const message = error.response && error.response.data.message
+      ? error.response.data.message
+      : error.message
     dispatch({
       type: PRODUCT_LIST_FAIL,
-      payload: error.message
+      payload: message
     });
   }
 }
@@ -33,12 +36,12 @@ export const detailsProduct = (productId) => async (dispatch) => {
       type: PRODUCT_DETAILS_SUCCESS, payload: data
     });
   } catch (error) {
+    const message = error.response && error.response.data.message
+      ? error.response.data.message
+      : error.message
     dispatch({
       type: PRODUCT_DETAILS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: message
     });
   }
 }

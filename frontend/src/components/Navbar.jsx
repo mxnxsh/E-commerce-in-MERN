@@ -39,6 +39,9 @@ const Navbar = () => {
                 <Link to='/orderhistory'>Order History</Link>
               </li>
               <li>
+                <Link to='/profile'>User Profile</Link>
+              </li>
+              <li>
                 <Link to='#signout' onClick={signOutHandler}>
                   Sign Out
                 </Link>
