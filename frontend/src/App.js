@@ -17,6 +17,7 @@ import AdminRoute from './components/AdminRoute';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import CreateProductScreen from './screens/CreateProductScreen';
+import OrderListScreen from './screens/OrderListScreen';
 function App() {
   return (
     <Router>
@@ -43,6 +44,10 @@ function App() {
           <AdminRoute
             path="/productlist"
             component={ProductListScreen}
+          ></AdminRoute>
+          <AdminRoute
+            path="/orderlist"
+            component={OrderListScreen}
           ></AdminRoute>
         </main>
         <footer className="row center">All right reserved.</footer>
