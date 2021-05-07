@@ -1,48 +1,53 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, listProduct } from '../actions/productActions';
+import { Link } from 'react-router-dom';
+import { deleteProduct, listProduct } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
+import { PRODUCT_DELETE_RESET } from '../constants/productConstants';
 
 const ProductListScreen = props => {
   const productList = useSelector(state => state.productList);
   const { loading, error, products } = productList;
 
-  const productCreate = useSelector(state => state.productCreate);
+  const productDelete = useSelector(state => state.productDelete);
   const {
-    loading: loadingCreate,
-    error: errorCreate,
-    success: successCreate,
-    product: createdProduct,
-  } = productCreate;
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+    product,
+  } = productDelete;
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (successCreate) {
-      dispatch({ type: PRODUCT_CREATE_RESET });
-      props.history.push(`/product/${createdProduct._id}/edit`);
-    }
     dispatch(listProduct());
-  }, [dispatch, createdProduct, successCreate, props.history]);
+    if (successDelete) {
+      dispatch({ type: PRODUCT_DELETE_RESET });
+    }
+  }, [dispatch, successDelete]);
 
-  const deleteHandler = () => {
-    //
-  };
-  const createHandler = () => {
-    dispatch(createProduct());
+  const deleteHandler = product => {
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteProduct(product._id));
+    }
   };
 
   return (
     <div>
       <div className='row'>
         <h1>Products</h1>
-        <button type='button' className='primary' onClick={createHandler}>
+        <Link to='/create-product' className='primary linkButton'>
           Create Product
-        </button>
+        </Link>
       </div>
-      {loadingCreate && <LoadingBox></LoadingBox>}
-      {errorCreate && <MessageBox variant='danger'>{errorCreate}</MessageBox>}
+
+      {loadingDelete && <LoadingBox />}
+      {errorDelete && <MessageBox variant='danger'>{errorDelete}</MessageBox>}
+      {
+        product && console.log('product')
+        // <MessageBox variant='success'>{`${product.name} is deleted successfully`}</MessageBox>
+      }
+
       {loading ? (
         <LoadingBox />
       ) : error ? (

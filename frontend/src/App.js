@@ -16,6 +16,7 @@ import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
+import CreateProductScreen from './screens/CreateProductScreen';
 function App() {
   return (
     <Router>
@@ -24,6 +25,7 @@ function App() {
         <main>
           <Route exact path='/' component={HomeScreen}></Route>
           <Route path='/product/:id' exact component={ProductScreen}></Route>
+          <Route path='/create-product' exact component={CreateProductScreen}></Route>
           <Route
             path="/product/:id/edit"
             component={ProductEditScreen}
