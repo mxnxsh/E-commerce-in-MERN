@@ -18,6 +18,8 @@ import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import CreateProductScreen from './screens/CreateProductScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import UserListScreen from './screens/UserListScreen';
+import UserEditScreen from './screens/UserEditScreen';
 function App() {
   return (
     <Router>
@@ -48,6 +50,14 @@ function App() {
           <AdminRoute
             path="/orderlist"
             component={OrderListScreen}
+          ></AdminRoute>
+          <AdminRoute
+            path="/userlist"
+            component={UserListScreen}
+          ></AdminRoute>
+          <AdminRoute
+            path="/user/:id/edit"
+            component={UserEditScreen}
           ></AdminRoute>
         </main>
         <footer className="row center">All right reserved.</footer>
