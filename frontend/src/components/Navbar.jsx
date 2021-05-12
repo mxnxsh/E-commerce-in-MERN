@@ -51,6 +51,24 @@ const Navbar = () => {
         ) : (
           <Link to='/signin'>Signin</Link>
         )}
+        {userInfo && userInfo.isSeller && (
+          <div className='dropdown'>
+            <Link to='#admin'>
+              Seller <i className='fa fa-caret-down'></i>
+            </Link>
+            <ul className='dropdown-content'>
+              <li>
+                <Link to='/dashboard/seller'>Dashboard</Link>
+              </li>
+              <li>
+                <Link to='/productlist/seller'>Products</Link>
+              </li>
+              <li>
+                <Link to='/orderlist/seller'>Orders</Link>
+              </li>
+            </ul>
+          </div>
+        )}
         {userInfo && userInfo.isAdmin && (
           <div className='dropdown'>
             <Link to='#admin'>

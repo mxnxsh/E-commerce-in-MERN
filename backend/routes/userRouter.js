@@ -33,7 +33,7 @@ userRouter.post(
     // await User.deleteMany({});
     const user = await User.findOne({ email: req.body.email });
     try {
-      const { _id, name, email, password, isAdmin } = user
+      const { _id, name, email, password, isAdmin, isSeller } = user
       if (user) {
         if (bcrypt.compareSync(req.body.password, password)) {
           res.status(200).send({
@@ -41,6 +41,7 @@ userRouter.post(
             name,
             email,
             isAdmin,
+            isSeller,
             token: generateToken(user)
           })
         } else {
@@ -57,6 +58,7 @@ userRouter.post(
 userRouter.post(
   '/register',
   expressAsyncHandler(async (req, res) => {
+
     const user = new User({
       name: req.body.name,
       email: req.body.email,
@@ -64,12 +66,13 @@ userRouter.post(
     });
     try {
       const createdUser = await user.save();
-      const { _id, name, email, isAdmin, } = createdUser
+      const { _id, name, email, isAdmin, isSeller } = createdUser
       res.send({
         _id,
         name,
         email,
         isAdmin,
+        iseSeller,
         token: generateToken(createdUser),
       });
     } catch (error) {
@@ -99,6 +102,12 @@ userRouter.put(
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
+      if (user.isSeller) {
+        user.seller.name = req.body.sellerName || user.seller.name;
+        user.seller.logo = req.body.sellerLogo || user.seller.logo;
+        user.seller.description =
+          req.body.sellerDescription || user.seller.description;
+      }
       if (req.body.password) {
         user.password = bcrypt.hashSync(req.body.password, 8);
       }
@@ -108,6 +117,7 @@ userRouter.put(
         name: updatedUser.name,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
+        isSeller: updatedUser.isSeller,
         token: generateToken(updatedUser),
       });
     }
@@ -132,15 +142,22 @@ userRouter.delete("/:id", isAuth, isAdmin, expressAsyncHandler(async (req, res) 
 
 userRouter.put('/:id', isAuth, isAdmin, expressAsyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
-  console.log(req.body);
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.isSeller = req.body.isSeller;
     user.isAdmin = req.body.isAdmin;
     const updatedUser = await user.save();
-    console.log(updatedUser);
-    res.status(201).send({ message: 'User updated successfully', user: updatedUser });
+    res.status(201).send({
+      message: 'User updated successfully', user: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        isSeller: updatedUser.isSeller,
+        token: generateToken(updatedUser)
+      }
+    });
   } else {
     res.status(404).send({ message: "User Not found" });
   }

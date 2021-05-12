@@ -77,6 +77,7 @@ const orderSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+
   isPaid: {
     type: Boolean,
     default: false
