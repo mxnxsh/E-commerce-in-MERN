@@ -72,7 +72,7 @@ userRouter.post(
         name,
         email,
         isAdmin,
-        iseSeller,
+        isSeller,
         token: generateToken(createdUser),
       });
     } catch (error) {

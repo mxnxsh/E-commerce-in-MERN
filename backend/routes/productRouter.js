@@ -5,14 +5,16 @@ import path from 'path';
 
 import Product from '../models/productModel.js';
 import data from '../data.js'
-import { isAdmin, isAuth } from '../utils.js'
+import { isAdmin, isAuth, isSellerOrAdmin } from '../utils.js'
 const productRouter = express.Router();
 
 
 productRouter.get(
   '/',
   expressAsyncHandler(async (req, res) => {
-    const products = await Product.find({});
+    const seller = req.query.seller || '';
+    const sellerFilter = seller ? { seller } : {};
+    const products = await Product.find({ ...sellerFilter });
     try {
       res.status(200).send(products);
     } catch (error) {
@@ -56,16 +58,18 @@ productRouter.get(
 productRouter.post(
   '/',
   isAuth,
-  isAdmin,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
-    const product = new Product(req.body); const createdProduct = await product.save()
+    const product = new Product({ ...req.body, seller: req.user._id });
+    const createdProduct = await product.save()
+    // console.log(createdProduct);
     res.send({ message: 'Product Created', product: createdProduct });
   })
 );
 productRouter.put(
   '/:id',
   isAuth,
-  isAdmin,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
     const product = await Product.findById(productId);

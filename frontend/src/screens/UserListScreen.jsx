@@ -72,8 +72,7 @@ const UserListScreen = props => {
                   </button>
                   <button
                     type='button'
-                    className='small'
-                    disabled={user.isAdmin ? true : false}
+                    className={`small ${user.isAdmin ? 'disabled' : ''}`}
                     onClick={() => deleteHandler(user)}
                   >
                     Delete

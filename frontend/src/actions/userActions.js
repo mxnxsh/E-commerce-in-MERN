@@ -174,8 +174,10 @@ export const updatedUser = (user) => async (dispatch, getState) => {
       }
     })
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data })
-    dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.user });
-    localStorage.setItem('userInfo', JSON.stringify(data.user));
+    if (data.user.isAdmin === true) {
+      dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.user });
+      localStorage.setItem('userInfo', JSON.stringify(data.user));
+    }
   } catch (error) {
     const message =
       error.response && error.response.data.message

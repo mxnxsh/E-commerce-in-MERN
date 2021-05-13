@@ -7,6 +7,7 @@ import MessageBox from '../components/MessageBox';
 import { PRODUCT_DELETE_RESET } from '../constants/productConstants';
 
 const ProductListScreen = props => {
+  const sellerMode = props.match.path.indexOf('/seller') >= 0;
   const productList = useSelector(state => state.productList);
   const { loading, error, products } = productList;
 
@@ -18,13 +19,16 @@ const ProductListScreen = props => {
     product,
   } = productDelete;
 
+  const userSignIn = useSelector(state => state.userSignIn);
+  const { userInfo } = userSignIn;
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(listProduct());
+    dispatch(listProduct({ seller: sellerMode ? userInfo._id : '' }));
     if (successDelete) {
       dispatch({ type: PRODUCT_DELETE_RESET });
     }
-  }, [dispatch, successDelete]);
+  }, [dispatch, successDelete, sellerMode, userInfo._id]);
 
   const deleteHandler = product => {
     if (window.confirm('Are you sure to delete?')) {

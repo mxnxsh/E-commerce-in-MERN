@@ -5,6 +5,10 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
     },
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
     image: {
       type: String,
     },
