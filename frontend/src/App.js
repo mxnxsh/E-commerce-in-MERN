@@ -21,6 +21,7 @@ import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import SellerRoute from './components/SellerRoute';
+import SellerScreen from './screens/SellerScreen';
 function App() {
   return (
     <Router>
@@ -69,6 +70,10 @@ function App() {
           <SellerRoute
             path='/orderlist/seller'
             component={OrderListScreen}
+          />
+          <Route
+            path="/seller/:id"
+            component={SellerScreen}
           />
         </main>
         <footer className="row center">All right reserved.</footer>

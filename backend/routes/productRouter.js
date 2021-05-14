@@ -14,7 +14,10 @@ productRouter.get(
   expressAsyncHandler(async (req, res) => {
     const seller = req.query.seller || '';
     const sellerFilter = seller ? { seller } : {};
-    const products = await Product.find({ ...sellerFilter });
+    const products = await Product.find({ ...sellerFilter }).populate(
+      'seller',
+      'seller.name seller.logo'
+    );
     try {
       res.status(200).send(products);
     } catch (error) {
@@ -28,7 +31,7 @@ productRouter.get(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     try {
-      // await Product.deleteMany({});
+      await Product.deleteMany({});
       const createdProducts = await Product.insertMany(data.products);
       res.status(200).send({ createdProducts });
     } catch (error) {
@@ -41,7 +44,10 @@ productRouter.get(
 productRouter.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate(
+      'seller',
+      'seller.name seller.logo seller.rating seller.numReviews'
+    );;
     try {
       if (product) {
         res.send(product);

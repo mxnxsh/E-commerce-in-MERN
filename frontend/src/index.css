@@ -148,14 +148,23 @@ a.brand {
 .row.top {
   align-items: flex-start;
 }
+.row.start {
+  justify-content: flex-start;
+}
 .col-1 {
   flex: 1 1 25rem;
 }
 .col-2 {
   flex: 2 1 50rem;
 }
+.col-3 {
+  flex: 32 1 75rem;
+}
 .min-30 {
   min-width: 30rem;
+}
+.p-1 {
+  padding: 0.5rem;
 }
 /* image */
 img {
@@ -302,4 +311,8 @@ img.large {
 .disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+/* Carousel */
+.carousel .slide img {
+  max-width: 30rem;
 }

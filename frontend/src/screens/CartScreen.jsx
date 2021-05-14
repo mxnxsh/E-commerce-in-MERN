@@ -2,44 +2,46 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { addToCart ,removeFromCart} from '../actions/cartActions';
+import { addToCart, removeFromCart } from '../actions/cartActions';
 import MessageBox from '../components/MessageBox';
 
 const CartScreen = props => {
   const cart = useSelector(state => state.cart);
-  const { cartItems } = cart;
+  const { cartItems, error } = cart;
 
   const userSignIn = useSelector(state => state.userSignIn);
   const { userInfo } = userSignIn;
-  
+
   const dispatch = useDispatch();
 
   const productId = props.match.params.id;
   const qty = props.location.search
     ? Number(props.location.search.split('=')[1])
     : 1;
-  
+
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
     }
     if (!userInfo) {
-      return props.history.push('/signin')
+      return props.history.push('/signin');
     }
-  }, [dispatch, productId, qty,props.history,userInfo]);
+  }, [dispatch, productId, qty, props.history, userInfo]);
 
-  const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id))
+  const removeFromCartHandler = id => {
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
-    props.history.push('/signin?redirect=shipping')
+    props.history.push('/signin?redirect=shipping');
   };
 
   return (
     <div className='row top'>
       <div className='col-2'>
         <h1>Shopping Cart</h1>
+        {error && <MessageBox variant='danger'>{error}</MessageBox>}
+
         {cartItems.length === 0 ? (
           <MessageBox>
             Cart is empty. <Link to='/'>Go Shopping</Link>

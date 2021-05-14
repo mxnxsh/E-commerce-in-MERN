@@ -13,7 +13,15 @@ userRouter.get('/', isAuth, isAdmin, expressAsyncHandler(async (req, res) => {
   res.status(200).send(users);
 })
 );
-
+userRouter.get(
+  '/top-sellers',
+  expressAsyncHandler(async (req, res) => {
+    const topSellers = await User.find({ isSeller: true })
+      .sort({ 'seller.rating': -1 })
+      .limit(3);
+    res.send(topSellers);
+  })
+);
 userRouter.get(
   '/seed',
   expressAsyncHandler(async (req, res) => {
