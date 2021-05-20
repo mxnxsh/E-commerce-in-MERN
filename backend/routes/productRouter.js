@@ -104,22 +104,12 @@ productRouter.delete(
     if (product) {
 
       const __dirname = path.resolve();
-
       const deleteProduct = await product.remove();
-      console.log(__dirname + product.image);
-      await fs.unlink(__dirname + '/uploads/1620307689855.jpg');
-      // console.log(deleteProduct.image);
-      // if (deleteProduct.image !== '') {
-      //   try {
-      //     fs.unlink(`${deleteProduct.image}`);
-      //   } catch (error) {
-      //     console.log(error.message);
-      //     console.log(`${deleteProduct.image}`);
-      //   }
-      // }
-
-
-
+      try {
+        fs.unlinkSync(__dirname + deleteProduct.image);
+      } catch (error) {
+        console.error(error.message)
+      }
       res.send({ message: 'Product Deleted', product: deleteProduct });
     } else {
       res.status(404).send({ message: 'Product Not Found' });

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { deleteUser, listUsers } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -49,6 +50,7 @@ const UserListScreen = props => {
               <th>ID</th>
               <th>NAME</th>
               <th>EMAIL</th>
+              <th>Created At</th>
               <th>IS SELLER</th>
               <th>IS ADMIN</th>
               <th>ACTIONS</th>
@@ -60,6 +62,7 @@ const UserListScreen = props => {
                 <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
+                <td>{moment(user.createdAt).fromNow()}</td>
                 <td>{user.isSeller ? 'YES' : 'NO'}</td>
                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                 <td>

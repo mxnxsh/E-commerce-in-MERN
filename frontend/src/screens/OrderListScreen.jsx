@@ -79,13 +79,15 @@ const OrderListScreen = props => {
                   >
                     Details
                   </button>
-                  <button
-                    type='button'
-                    className='small'
-                    onClick={() => deleteHandler(order)}
-                  >
-                    Delete
-                  </button>
+                  {userInfo.isAdmin && (
+                    <button
+                      type='button'
+                      className='small'
+                      onClick={() => deleteHandler(order)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

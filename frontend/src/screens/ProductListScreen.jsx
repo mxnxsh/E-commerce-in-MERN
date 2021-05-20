@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+
 import { deleteProduct, listProduct } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -56,6 +58,10 @@ const ProductListScreen = props => {
         <LoadingBox />
       ) : error ? (
         <MessageBox varient='danger'>{error}</MessageBox>
+      ) : products.length === 0 ? (
+        <MessageBox varient='success'>
+          NO PRODUCT CREATED. <Link to='/create-product'>CREATE PRODUCT</Link>
+        </MessageBox>
       ) : (
         <table className='table'>
           <thead>
@@ -65,6 +71,7 @@ const ProductListScreen = props => {
               <th>Price</th>
               <th>Category</th>
               <th>Brand</th>
+              <th>Created At</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -76,6 +83,7 @@ const ProductListScreen = props => {
                 <td>{product.price}</td>
                 <td>{product.category}</td>
                 <td>{product.brand}</td>
+                <td>{moment(product.createdAt).fromNow()}</td>
                 <td>
                   <button
                     type='button'

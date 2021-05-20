@@ -294,6 +294,7 @@ img.large {
   width: 100%;
   /* min-width: 30%; */
   border-collapse: collapse;
+  overflow: scroll;
 }
 .table tbody tr:nth-of-type(odd) {
   background-color: #f4f4f4;

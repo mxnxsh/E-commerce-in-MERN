@@ -41,17 +41,16 @@ userRouter.post(
     // await User.deleteMany({});
     const user = await User.findOne({ email: req.body.email });
     try {
-      const { _id, name, email, password, isAdmin, isSeller } = user
       if (user) {
-        if (bcrypt.compareSync(req.body.password, password)) {
-          res.status(200).send({
-            _id,
-            name,
-            email,
-            isAdmin,
-            isSeller,
-            token: generateToken(user)
-          })
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+          res.send({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            isSeller: user.isSeller,
+            token: generateToken(user),
+          });
         } else {
           res.status(401).send({ message: 'Invalid email and password' })
         }

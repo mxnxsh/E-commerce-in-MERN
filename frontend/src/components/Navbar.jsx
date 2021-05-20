@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <header className='row'>
       <div>
-        <Link className='brand' to='/'>
+        <Link className='brand' to='/' target='_blank'>
           amazona
         </Link>
       </div>
