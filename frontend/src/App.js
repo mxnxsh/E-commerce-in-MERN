@@ -22,6 +22,7 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import SellerRoute from './components/SellerRoute';
 import SellerScreen from './screens/SellerScreen';
+import SearchScreen from './screens/SearchScreen';
 function App() {
   return (
     <Router>
@@ -74,6 +75,11 @@ function App() {
           <Route
             path="/seller/:id"
             component={SellerScreen}
+          />
+          <Route
+            path="/search/name/:name?"
+            component={SearchScreen}
+            exact
           />
         </main>
         <footer className="row center">All right reserved.</footer>

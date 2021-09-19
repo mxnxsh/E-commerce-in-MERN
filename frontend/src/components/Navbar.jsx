@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from '../actions/userActions';
+import SearchBox from './SearchBox';
 
 const Navbar = () => {
   const cart = useSelector(state => state.cart);
@@ -18,9 +19,12 @@ const Navbar = () => {
   return (
     <header className='row'>
       <div>
-        <Link className='brand' to='/' target='_blank'>
+        <Link className='brand' to='/'>
           amazona
         </Link>
+      </div>
+      <div>
+        <Route render={({ history }) => <SearchBox history={history} />} />
       </div>
       <div>
         <Link to='/cart'>
