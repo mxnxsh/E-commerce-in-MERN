@@ -17,7 +17,7 @@ const SearchScreen = () => {
     <div>
       <div className='row'>
         {loading ? (
-          <LoadingBox></LoadingBox>
+          <LoadingBox/>
         ) : error ? (
           <MessageBox variant='danger'>{error}</MessageBox>
         ) : (
@@ -33,7 +33,7 @@ const SearchScreen = () => {
         </div>
         <div className='col-3'>
           {loading ? (
-            <LoadingBox></LoadingBox>
+            <LoadingBox/>
           ) : error ? (
             <MessageBox variant='danger'>{error}</MessageBox>
           ) : (
