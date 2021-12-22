@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Rating from "../components/Rating";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { createReview } from "../actions/productActions";
+import { createReview, detailsProduct } from "../actions/productActions";
 import { PRODUCT_REVIEW_CREATE_RESET } from "../constants/productConstants";
 
 function ProductScreen(props) {
@@ -52,6 +52,7 @@ function ProductScreen(props) {
       setComment("");
       dispatch({ type: PRODUCT_REVIEW_CREATE_RESET });
     }
+    dispatch(detailsProduct(productId));
   }, [dispatch, productId, successReviewCreate]);
   return (
     <div>
