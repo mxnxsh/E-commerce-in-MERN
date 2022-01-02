@@ -8,166 +8,182 @@ import { generateToken, isAdmin, isAuth } from '../utils.js';
 
 const userRouter = express.Router();
 
-userRouter.get('/', isAuth, isAdmin, expressAsyncHandler(async (req, res) => {
-  const users = await User.find({});
-  res.status(200).send(users);
-})
+userRouter.get(
+   '/',
+   isAuth,
+   isAdmin,
+   expressAsyncHandler(async (req, res) => {
+      const users = await User.find({});
+      res.status(200).send(users);
+   }),
 );
 userRouter.get(
-  '/top-sellers',
-  expressAsyncHandler(async (req, res) => {
-    const topSellers = await User.find({ isSeller: true })
-      .sort({ 'seller.rating': -1 })
-      .limit(3);
-    res.send(topSellers);
-  })
+   '/top-sellers',
+   expressAsyncHandler(async (req, res) => {
+      const topSellers = await User.find({ isSeller: true })
+         .sort({ 'seller.rating': -1 })
+         .limit(3);
+      res.send(topSellers);
+   }),
 );
 userRouter.get(
-  '/seed',
-  expressAsyncHandler(async (req, res) => {
-    await User.deleteMany({});
-    try {
-      const createdUsers = await User.insertMany(data.users);
-      res.send({ createdUsers });
-    } catch (error) {
-      console.log(error);
-      res.status(512).send(error.message);
-    }
-  })
-);
-userRouter.post(
-  '/signin',
-  expressAsyncHandler(async (req, res) => {
-    // await User.deleteMany({});
-    const user = await User.findOne({ email: req.body.email });
-    try {
-      if (user) {
-        if (bcrypt.compareSync(req.body.password, user.password)) {
-          res.send({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            isSeller: user.isSeller,
-            token: generateToken(user),
-          });
-        } else {
-          res.status(401).send({ message: 'Invalid email and password' })
-        }
+   '/seed',
+   expressAsyncHandler(async (req, res) => {
+      await User.deleteMany({});
+      try {
+         const createdUsers = await User.insertMany(data.users);
+         res.send({ createdUsers });
+      } catch (error) {
+         console.log(error);
+         res.status(512).send(error.message);
       }
-    } catch (error) {
-      console.log(error);
-      res.status(512).send(error.message);
-    }
-  })
+   }),
+);
+userRouter.post(
+   '/signin',
+   expressAsyncHandler(async (req, res) => {
+      // await User.deleteMany({});
+      const user = await User.findOne({ email: req.body.email });
+      try {
+         if (user) {
+            if (bcrypt.compareSync(req.body.password, user.password)) {
+               res.send({
+                  _id: user._id,
+                  name: user.name,
+                  email: user.email,
+                  isAdmin: user.isAdmin,
+                  isSeller: user.isSeller,
+                  token: generateToken(user),
+               });
+            } else {
+               res.status(401).send({ message: 'Invalid email and password' });
+            }
+         }
+      } catch (error) {
+         console.log(error);
+         res.status(512).send(error.message);
+      }
+   }),
 );
 
 userRouter.post(
-  '/register',
-  expressAsyncHandler(async (req, res) => {
-
-    const user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 8),
-    });
-    try {
-      const createdUser = await user.save();
-      const { _id, name, email, isAdmin, isSeller } = createdUser
-      res.send({
-        _id,
-        name,
-        email,
-        isAdmin,
-        isSeller,
-        token: generateToken(createdUser),
+   '/register',
+   expressAsyncHandler(async (req, res) => {
+      const user = new User({
+         name: req.body.name,
+         email: req.body.email,
+         password: bcrypt.hashSync(req.body.password, 8),
       });
-    } catch (error) {
-      res.status(512).send({ message: 'Email already exist' })
-    }
-
-  })
+      try {
+         const createdUser = await user.save();
+         const { _id, name, email, isAdmin, isSeller } = createdUser;
+         res.send({
+            _id,
+            name,
+            email,
+            isAdmin,
+            isSeller,
+            token: generateToken(createdUser),
+         });
+      } catch (error) {
+         res.status(512).send({ message: 'Email already exist' });
+      }
+   }),
 );
 
 userRouter.get(
-  '/:id',
-  expressAsyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
-    if (user) {
-      res.send(user);
-    } else {
-      res.status(404).send({ message: 'User Not Found' });
-    }
-  })
+   '/:id',
+   expressAsyncHandler(async (req, res) => {
+      const user = await User.findById(req.params.id);
+      if (user) {
+         res.send(user);
+      } else {
+         res.status(404).send({ message: 'User Not Found' });
+      }
+   }),
 );
 
 userRouter.put(
-  '/profile',
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
-      if (user.isSeller) {
-        user.seller.name = req.body.sellerName || user.seller.name;
-        user.seller.logo = req.body.sellerLogo || user.seller.logo;
-        user.seller.description =
-          req.body.sellerDescription || user.seller.description;
+   '/profile',
+   isAuth,
+   expressAsyncHandler(async (req, res) => {
+      const user = await User.findById(req.user._id);
+      if (user) {
+         user.name = req.body.name || user.name;
+         user.email = req.body.email || user.email;
+         if (user.isSeller) {
+            user.seller.name = req.body.sellerName || user.seller.name;
+            user.seller.logo = req.body.sellerLogo || user.seller.logo;
+            user.seller.description =
+               req.body.sellerDescription || user.seller.description;
+         }
+         if (req.body.password) {
+            user.password = bcrypt.hashSync(req.body.password, 8);
+         }
+         const updatedUser = await user.save();
+         res.send({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+            isSeller: updatedUser.isSeller,
+            token: generateToken(updatedUser),
+         });
       }
-      if (req.body.password) {
-        user.password = bcrypt.hashSync(req.body.password, 8);
-      }
-      const updatedUser = await user.save();
-      res.send({
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        isAdmin: updatedUser.isAdmin,
-        isSeller: updatedUser.isSeller,
-        token: generateToken(updatedUser),
-      });
-    }
-  })
+   }),
 );
 
-userRouter.delete("/:id", isAuth, isAdmin, expressAsyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (user) {
-    if (user.isAdmin === true) {
-      res.status(400).send({ message: 'Cannot Delete Admin User' })
-      return;
-    }
-    const deletedUser = await user.remove();
-    res.status(201).send({ message: 'User deletedUser', user: deletedUser })
-  } else {
-    res.status(404).send({
-      message: "User Not found "
-    })
-  }
-}))
-
-userRouter.put('/:id', isAuth, isAdmin, expressAsyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (user) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.isSeller = req.body.isSeller;
-    user.isAdmin = req.body.isAdmin;
-    const updatedUser = await user.save();
-    res.status(201).send({
-      message: 'User updated successfully', user: {
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        isAdmin: updatedUser.isAdmin,
-        isSeller: updatedUser.isSeller,
-        token: generateToken(updatedUser)
+userRouter.delete(
+   '/:id',
+   isAuth,
+   isAdmin,
+   expressAsyncHandler(async (req, res) => {
+      const user = await User.findById(req.params.id);
+      if (user) {
+         if (user.isAdmin === true) {
+            res.status(400).send({ message: 'Cannot Delete Admin User' });
+            return;
+         }
+         const deletedUser = await user.remove();
+         res.status(201).send({
+            message: 'User deletedUser',
+            user: deletedUser,
+         });
+      } else {
+         res.status(404).send({
+            message: 'User Not found ',
+         });
       }
-    });
-  } else {
-    res.status(404).send({ message: "User Not found" });
-  }
-}))
+   }),
+);
+
+userRouter.put(
+   '/:id',
+   isAuth,
+   isAdmin,
+   expressAsyncHandler(async (req, res) => {
+      const user = await User.findById(req.params.id);
+      if (user) {
+         user.name = req.body.name || user.name;
+         user.email = req.body.email || user.email;
+         user.isSeller = Boolean(req.body.isSeller);
+         user.isAdmin = Boolean(req.body.isAdmin);
+         const updatedUser = await user.save();
+         res.status(201).send({
+            message: 'User updated successfully',
+            user: {
+               _id: updatedUser._id,
+               name: updatedUser.name,
+               email: updatedUser.email,
+               isAdmin: updatedUser.isAdmin,
+               isSeller: updatedUser.isSeller,
+               token: generateToken(updatedUser),
+            },
+         });
+      } else {
+         res.status(404).send({ message: 'User Not found' });
+      }
+   }),
+);
 
 export default userRouter;

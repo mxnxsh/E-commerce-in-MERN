@@ -5,6 +5,8 @@ import data from '../data.js';
 const productRouter = express.Router();
 
 export const getProduct = expressAsyncHandler(async (req, res) => {
+   const pageSize = 6;
+   const page = Number(req.query.pageNumber) || 1;
    const name = req.query.name || '';
    const seller = req.query.seller || '';
    const category = req.query.category || '';
@@ -30,6 +32,13 @@ export const getProduct = expressAsyncHandler(async (req, res) => {
          : order === 'toprated'
          ? { rating: -1 }
          : { _id: -1 };
+   const count = await Product.countDocuments({
+      ...nameFilter,
+      ...sellerFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+   });
    const products = await Product.find({
       ...nameFilter,
       ...sellerFilter,
@@ -38,9 +47,11 @@ export const getProduct = expressAsyncHandler(async (req, res) => {
       ...ratingFilter,
    })
       .populate('seller', 'seller.name seller.logo')
-      .sort(sortOrder);
+      .sort(sortOrder)
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
    try {
-      res.status(200).send(products);
+      res.send({ products, page, pages: Math.ceil(count / pageSize) });
    } catch (error) {
       console.log(error);
       res.status(512).send(error.message);
@@ -49,11 +60,20 @@ export const getProduct = expressAsyncHandler(async (req, res) => {
 export const seedProduct = expressAsyncHandler(async (req, res) => {
    try {
       await Product.deleteMany({});
-      const createdProducts = await Product.insertMany(data.products);
+      const seller = await User.findOne({ isSeller: true });
+      if (seller) {
+         const products = data.products.map(product => ({
+            ...product,
+            seller: seller._id,
+         }));
+      }
+      const createdProducts = await Product.insertMany(products);
       res.status(200).send({ createdProducts });
    } catch (error) {
       console.log(error);
-      res.status(512).send(error.message);
+      res.status(500).send({
+         message: 'No seller found.First run /api.users/seed',
+      });
    }
 });
 export default productRouter;

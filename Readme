@@ -1,0 +1,9 @@
+Bug:
+1: User add one review and after changing the product This "You already submitted a review
+" message is showing even after the user had not added the review.
+
+
+
+22/12/2021 Changes
+1) Fix details view
+2) Fix seller logo and name error
