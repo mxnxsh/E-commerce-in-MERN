@@ -8,8 +8,9 @@ import userRouter from './routes/userRouter.js';
 import orderRouter from './routes/orderRouter.js';
 import uploadRouter from './routes/uploadRouter.js';
 
-dotenv.config();
+const __dirname = path.resolve();
 
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
 
 app.use(express.json());
@@ -39,7 +40,6 @@ app.get('/api/config/paypal', (req, res) => {
 app.get('/api/config/google', (req, res) => {
    res.send(process.env.GOOGLE_API_KEY || '');
 });
-const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.get('/', (req, res) => {
    res.send('Hello world');

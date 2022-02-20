@@ -2,11 +2,15 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
 import data from '../data.js';
+import {
+   DASHBOARD_SCREEN_ROUTE,
+   OTHER_SCREEN_ROUTE,
+} from '../constants/product.constants.js';
 const productRouter = express.Router();
 
 export const getProduct = expressAsyncHandler(async (req, res) => {
-   console.log('Header', req.headers.host);
-   const pageSize = 6;
+   console.log('Headers', req.headers.referer === OTHER_SCREEN_ROUTE);
+   const pageSize = req.headers.referer === DASHBOARD_SCREEN_ROUTE ? 12 : 6;
    const page = Number(req.query.pageNumber) || 1;
    const name = req.query.name || '';
    const seller = req.query.seller || '';

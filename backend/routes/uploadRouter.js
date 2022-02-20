@@ -22,6 +22,14 @@ uploadRouter.post('/', isAuth, upload.single('image'), (req, res) => {
    res.send(`/${req.file.path}`);
 });
 
+/**
+ * S3 Bulk code
+ */
+/*aws.config.update({
+   accessKeyId: process.env.ACCESS_KEY_ID || 'ACCESS_KEY_ID',
+   secretAccessKey: process.env.SECRET_ACCESS_KEY || 'SECRET_ACCESS_KEY',
+});
+
 const s3 = new aws.S3();
 const storageS3 = multerS3({
    s3,
@@ -35,6 +43,6 @@ const storageS3 = multerS3({
 const uploadS3 = multer({ storage: storageS3 });
 uploadRouter.post('/s3', uploadS3.single('image'), (req, res) => {
    res.send(req.file.location);
-});
+});*/
 
 export default uploadRouter;

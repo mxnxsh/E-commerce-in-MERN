@@ -50,7 +50,7 @@ const CreateProductScreen = props => {
       bodyFormData.append('image', file);
       setLoadingUpload(true);
       try {
-         const { data } = await Axios.post('/api/uploads/s3', bodyFormData, {
+         const { data } = await Axios.post('/api/uploads', bodyFormData, {
             headers: {
                'Content-Type': 'multipart/form-data',
                Authorization: `Bearer ${userInfo.token}`,

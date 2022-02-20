@@ -40,7 +40,6 @@ export const isAuth = (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-   console.log('isAdmin', req.user.isAdmin);
    if (req.user && req.user.isAdmin) {
       next();
    } else {

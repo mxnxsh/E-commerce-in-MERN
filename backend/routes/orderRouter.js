@@ -1,6 +1,11 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+<<<<<<< HEAD
+=======
+import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
+>>>>>>> master-new
 import {
    isAdmin,
    isAuth,
@@ -8,7 +13,11 @@ import {
    mailgun,
    payOrderEmailTemplate,
 } from '../utils.js';
+<<<<<<< HEAD
 
+=======
+import MailService from './../services/mail.service.js';
+>>>>>>> master-new
 const orderRouter = express.Router();
 
 orderRouter.get(
@@ -37,6 +46,56 @@ orderRouter.delete(
          res.send({ message: 'Order Deleted', order: deleteOrder });
       } else {
          res.status(404).send({ message: 'Order Not Found' });
+      }
+   }),
+);
+
+orderRouter.get(
+   '/summary',
+   isAuth,
+   isAdmin,
+   expressAsyncHandler(async (req, res) => {
+      try {
+         const orders = await Order.aggregate([
+            {
+               $group: {
+                  _id: null,
+                  numOrders: { $sum: 1 },
+                  totalSales: { $sum: '$totalPrice' },
+               },
+            },
+         ]);
+         const users = await User.aggregate([
+            {
+               $group: {
+                  _id: null,
+                  numUsers: { $sum: 1 },
+               },
+            },
+         ]);
+         const dailyOrders = await Order.aggregate([
+            {
+               $group: {
+                  _id: {
+                     $dateToString: { format: '%Y-%m-%d', date: '$createdAt' },
+                  },
+                  orders: { $sum: 1 },
+                  sales: { $sum: '$totalPrice' },
+               },
+            },
+            { $sort: { _id: 1 } },
+         ]);
+         const productCategories = await Product.aggregate([
+            {
+               $group: {
+                  _id: '$category',
+                  count: { $sum: 1 },
+               },
+            },
+         ]);
+         res.send({ users, orders, dailyOrders, productCategories });
+      } catch (error) {
+         console.log(error);
       }
    }),
 );
@@ -108,23 +167,24 @@ orderRouter.put(
             email_address: req.body.email_address,
          };
          const updatedOrder = await order.save();
-         mailgun()
-            .messages()
-            .send(
-               {
-                  from: 'Amazona <amazona@mg.yourdomain.com>',
-                  to: `${order.user.name} <${order.user.email}>`,
-                  subject: `New order ${order._id}`,
-                  html: payOrderEmailTemplate(order),
-               },
-               (error, body) => {
-                  if (error) {
-                     console.log(error);
-                  } else {
-                     console.log(body);
-                  }
-               },
-            );
+         // mailgun()
+         //    .messages()
+         //    .send(
+         //       {
+         //          from: 'Amazona <amazona@mg.yourdomain.com>',
+         //          to: `${order.user.name} <${order.user.email}>`,
+         //          subject: `New order ${order._id}`,
+         //          html: payOrderEmailTemplate(order),
+         //       },
+         //       (error, body) => {
+         //          if (error) {
+         //             console.log(error);
+         //          } else {
+         //             console.log(body);
+         //          }
+         //       },
+         //    );
+
          res.send({ message: 'Order Paid', order: updatedOrder });
       } else {
          res.status(404).send({ message: 'Order Not Found' });
