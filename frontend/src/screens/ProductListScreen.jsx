@@ -63,67 +63,69 @@ const ProductListScreen = props => {
             <MessageBox varient='danger'>{error}</MessageBox>
          ) : products.length === 0 ? (
             <MessageBox varient='success'>
-               NO PRODUCT CREATED.{' '}
+               NO PRODUCT CREATED.
                <Link to='/create-product'>CREATE PRODUCT</Link>
             </MessageBox>
          ) : (
-            <table className='table'>
-               <thead>
-                  <tr>
-                     <th>ID</th>
-                     <th>Name</th>
-                     <th>Price</th>
-                     <th>Category</th>
-                     <th>Brand</th>
-                     <th>Created At</th>
-                     <th>Action</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {products.map(product => (
-                     <tr key={product._id}>
-                        <td>{product._id}</td>
-                        <td>{product.name}</td>
-                        <td>{product.price}</td>
-                        <td>{product.category}</td>
-                        <td>{product.brand}</td>
-                        <td>{moment(product.createdAt).fromNow()}</td>
-                        <td>
-                           <button
-                              type='button'
-                              className='small'
-                              onClick={() =>
-                                 props.history.push(
-                                    `/product/${product._id}/edit`,
-                                 )
-                              }
-                           >
-                              Edit
-                           </button>
-                           <button
-                              type='button'
-                              className='small'
-                              onClick={() => deleteHandler(product)}
-                           >
-                              Delete
-                           </button>
-                        </td>
+            <>
+               <table className='table'>
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Brand</th>
+                        <th>Created At</th>
+                        <th>Action</th>
                      </tr>
+                  </thead>
+                  <tbody>
+                     {products.map(product => (
+                        <tr key={product._id}>
+                           <td>{product._id}</td>
+                           <td>{product.name}</td>
+                           <td>{product.price}</td>
+                           <td>{product.category}</td>
+                           <td>{product.brand}</td>
+                           <td>{moment(product.createdAt).fromNow()}</td>
+                           <td>
+                              <button
+                                 type='button'
+                                 className='small'
+                                 onClick={() =>
+                                    props.history.push(
+                                       `/product/${product._id}/edit`,
+                                    )
+                                 }
+                              >
+                                 Edit
+                              </button>
+                              <button
+                                 type='button'
+                                 className='small'
+                                 onClick={() => deleteHandler(product)}
+                              >
+                                 Delete
+                              </button>
+                           </td>
+                        </tr>
+                     ))}
+                  </tbody>
+               </table>
+               <div className='row center pagination'>
+                  {[...Array(pages).keys()].map(x => (
+                     <Link
+                        className={x + 1 === page ? 'active' : ''}
+                        key={x + 1}
+                        to={`/productlist/pageNumber/${x + 1}`}
+                     >
+                        {x + 1}
+                     </Link>
                   ))}
-               </tbody>
-            </table>
+               </div>
+            </>
          )}
-         <div className='row center pagination'>
-            {[...Array(pages).keys()].map(x => (
-               <Link
-                  className={x + 1 === page ? 'active' : ''}
-                  key={x + 1}
-                  to={`/productlist/pageNumber/${x + 1}`}
-               >
-                  {x + 1}
-               </Link>
-            ))}
-         </div>
       </div>
    );
 };

@@ -2,8 +2,20 @@ Bug:
 1: User add one review and after changing the product This "You already submitted a review
 " message is showing even after the user had not added the review.
 
-
-
 22/12/2021 Changes
-1) Fix details view
-2) Fix seller logo and name error
+
+1. Fix details view
+2. Fix seller logo and name error
+3. Google Map not working because Need credit card
+
+26/01/2022 Done items
+
+1. Email code implemented in util.js and orderRouter.js file
+2. S3 bucket code implemented successfully
+3.
+
+TODO 26/01/2022 Bug and RND part
+
+1. mailgun-js package not working instead we have to use mailgun.js or check what valuenable is doing
+2. How to delete from S3 bucket
+3. Paypal api not working I think token get expired
