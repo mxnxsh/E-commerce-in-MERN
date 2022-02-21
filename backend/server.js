@@ -1,8 +1,11 @@
+import http from 'http';
+// import SocketIO from 'socket.io';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
-
+import isOnline from 'is-online';
+import dns from 'dns';
 import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRouter.js';
 import orderRouter from './routes/orderRouter.js';
@@ -48,7 +51,36 @@ app.use((err, req, res, next) => {
    res.status(500).send({ message: err.message });
 });
 
+// function checkInternet(cb) {
+//    dns.lookup('google.com', function (err) {
+//       if (err && err.code == 'ENOTFOUND') {
+//          cb(false);
+//       } else {
+//          cb(true);
+//       }
+//    });
+// }
+
+// // example usage:
+// checkInternet(function (isConnected) {
+//    if (isConnected) {
+//       // connected to the internet
+//       console.log('Internet is connected');
+//    } else {
+//       // not connected to the internet
+//       console.log('Internet is not connected');
+//    }
+// });
+(async () => {
+   console.log(await isOnline());
+   //=> true
+})();
+
 const PORT = process.env.PORT || 5000;
+
+// const httpServer = http.Server(app);
+// const io = SocketIO(httpServer);
+
 app.listen(PORT, () => {
    console.log(`Server is connected on http://localhost:${PORT}`);
 });
