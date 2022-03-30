@@ -1,21 +1,21 @@
-import http from 'http';
 // import SocketIO from 'socket.io';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
-import isOnline from 'is-online';
-import dns from 'dns';
 import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRouter.js';
 import orderRouter from './routes/orderRouter.js';
 import uploadRouter from './routes/uploadRouter.js';
+import { checkInternet } from './utils.js';
+// import morgan from 'morgan';
 
 const __dirname = path.resolve();
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
 
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // mongodb+srv://interview_db:rockstar123@cluster0.9koh3.mongodb.net/interview_db?retryWrites=true&w=majority
@@ -44,37 +44,14 @@ app.get('/api/config/google', (req, res) => {
    res.send(process.env.GOOGLE_API_KEY || '');
 });
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-app.get('/', (req, res) => {
+
+app.get('/', checkInternet, (req, res) => {
    res.send('Hello world');
 });
+
 app.use((err, req, res, next) => {
    res.status(500).send({ message: err.message });
 });
-
-// function checkInternet(cb) {
-//    dns.lookup('google.com', function (err) {
-//       if (err && err.code == 'ENOTFOUND') {
-//          cb(false);
-//       } else {
-//          cb(true);
-//       }
-//    });
-// }
-
-// // example usage:
-// checkInternet(function (isConnected) {
-//    if (isConnected) {
-//       // connected to the internet
-//       console.log('Internet is connected');
-//    } else {
-//       // not connected to the internet
-//       console.log('Internet is not connected');
-//    }
-// });
-(async () => {
-   console.log(await isOnline());
-   //=> true
-})();
 
 const PORT = process.env.PORT || 5000;
 
