@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import Mailgun from 'mailgun.js';
-import dns from 'dns';
 
 export const generateToken = user => {
    const { _id, name, email, isAdmin, isSeller } = user;
@@ -13,9 +12,9 @@ export const generateToken = user => {
          isSeller,
       },
       process.env.JWT_SECRET || 'somethingsecret',
-      {
-         expiresIn: '10s',
-      },
+      // {
+      //    expiresIn: '10s',
+      // },
    );
 };
 
@@ -61,15 +60,7 @@ export const isSellerOrAdmin = (req, res, next) => {
       res.status(401).send({ message: 'Invalid Admin/Seller Token' });
    }
 };
-export const checkInternet = (req, res, next) => {
-   dns.lookup('google.com', err => {
-      if (err && err.code == 'ENOTFOUND') {
-         res.status(503).send({ message: 'No internet connection' });
-      } else {
-         next();
-      }
-   });
-};
+
 export const mailgun = () =>
    mg({
       apiKey: process.env.MAILGUN_API_KEY,

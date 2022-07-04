@@ -60,7 +60,7 @@ export const listProduct =
       }
    };
 
-// Product Details
+// Get Product Details
 export const detailsProduct = productId => async dispatch => {
    dispatch({
       type: PRODUCT_DETAILS_REQUEST,

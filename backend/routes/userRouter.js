@@ -58,6 +58,8 @@ userRouter.post(
             } else {
                res.status(401).send({ message: 'Invalid email and password' });
             }
+         } else {
+            res.status(404).send({ message: 'User Not found please register' });
          }
       } catch (error) {
          console.log(error);
