@@ -1,6 +1,8 @@
-export const GET = (req, res, next) => {
+import { GET, POST, PATCH, DELETE, PUT } from '../constants/method.constant.js';
+
+export const getMethod = (req, res, next) => {
    switch (req.method.toLowerCase()) {
-      case 'get':
+      case GET:
          next();
          break;
       default:
@@ -10,9 +12,9 @@ export const GET = (req, res, next) => {
          break;
    }
 };
-export const POST = (req, res, next) => {
+export const postMethod = (req, res, next) => {
    switch (req.method.toLowerCase()) {
-      case 'post':
+      case POST:
          next();
          break;
       default:
@@ -22,9 +24,9 @@ export const POST = (req, res, next) => {
          break;
    }
 };
-export const PUT = (req, res, next) => {
+export const putMethod = (req, res, next) => {
    switch (req.method.toLowerCase()) {
-      case 'put':
+      case PUT:
          next();
          break;
       default:
@@ -34,9 +36,9 @@ export const PUT = (req, res, next) => {
          break;
    }
 };
-export const PATCH = (req, res, next) => {
+export const patchMethod = (req, res, next) => {
    switch (req.method.toLowerCase()) {
-      case 'patch':
+      case PATCH:
          next();
          break;
       default:
@@ -46,9 +48,9 @@ export const PATCH = (req, res, next) => {
          break;
    }
 };
-export const DELETE = (req, res, next) => {
+export const deleteMethod = (req, res, next) => {
    switch (req.method.toLowerCase()) {
-      case 'delete':
+      case DELETE:
          next();
          break;
       default:

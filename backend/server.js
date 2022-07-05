@@ -10,7 +10,7 @@ import userRouter from './routes/userRouter.js';
 import orderRouter from './routes/orderRouter.js';
 import uploadRouter from './routes/uploadRouter.js';
 import { checkInternet } from './middleware/internetcheck.middleware.js';
-import { GET } from './middleware/methodcheck.middleware.js';
+import { getMethod as GET } from './middleware/methodcheck.middleware.js';
 import morgan from 'morgan';
 
 const __dirname = path.resolve();
