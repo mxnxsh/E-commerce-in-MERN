@@ -1,17 +1,27 @@
-// import SocketIO from 'socket.io';
+/**
+ * Default NPM package
+ */
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 import parser from 'ua-parser-js';
+import morgan from 'morgan';
+// import SocketIO from 'socket.io';
 
+/**
+ * import router
+ */
 import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRouter.js';
 import orderRouter from './routes/orderRouter.js';
 import uploadRouter from './routes/uploadRouter.js';
+
+/**
+ * import middleware
+ */
 import { checkInternet } from './middleware/internetcheck.middleware.js';
 import { getMethod as GET } from './middleware/methodcheck.middleware.js';
-import morgan from 'morgan';
 
 const __dirname = path.resolve();
 
@@ -23,6 +33,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // mongodb+srv://interview_db:rockstar123@cluster0.9koh3.mongodb.net/interview_db?retryWrites=true&w=majority
 
+/**
+ * Database connectivity
+ */
 mongoose
    .connect(process.env.MONGODB_URL || 'mongodb://localhost/amazona', {
       useNewUrlParser: true,
@@ -48,6 +61,10 @@ app.get('/api/config/google', (req, res) => {
 });
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
+/**
+ * default router for testing
+ * for testing
+ */
 app.get('/', checkInternet, GET, (req, res) => {
    console.log('Remote IP', req.method);
    const ua = parser(req.headers['user-agent']);
@@ -78,7 +95,7 @@ app.use((err, req, res, next) => {
             res.send({ message: 'not found Data' });
          },
          'text/html': () => {
-            res.render('404.jade');
+            res.send({ message: 'not found Data' });
          },
          'application/json': () => {
             res.send({ message: 'not found Data' });

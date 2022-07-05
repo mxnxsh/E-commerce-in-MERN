@@ -1,7 +1,7 @@
 import { GET, POST, PATCH, DELETE, PUT } from '../constants/method.constant.js';
 
 export const getMethod = (req, res, next) => {
-   switch (req.method.toLowerCase()) {
+   switch (req.method) {
       case GET:
          next();
          break;
@@ -13,7 +13,7 @@ export const getMethod = (req, res, next) => {
    }
 };
 export const postMethod = (req, res, next) => {
-   switch (req.method.toLowerCase()) {
+   switch (req.method) {
       case POST:
          next();
          break;
@@ -25,7 +25,7 @@ export const postMethod = (req, res, next) => {
    }
 };
 export const putMethod = (req, res, next) => {
-   switch (req.method.toLowerCase()) {
+   switch (req.method) {
       case PUT:
          next();
          break;
@@ -37,7 +37,7 @@ export const putMethod = (req, res, next) => {
    }
 };
 export const patchMethod = (req, res, next) => {
-   switch (req.method.toLowerCase()) {
+   switch (req.method) {
       case PATCH:
          next();
          break;
@@ -49,7 +49,7 @@ export const patchMethod = (req, res, next) => {
    }
 };
 export const deleteMethod = (req, res, next) => {
-   switch (req.method.toLowerCase()) {
+   switch (req.method) {
       case DELETE:
          next();
          break;
