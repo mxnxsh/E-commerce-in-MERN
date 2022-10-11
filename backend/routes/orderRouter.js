@@ -1,8 +1,11 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+<<<<<<< HEAD
+=======
 import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
+>>>>>>> master-new
 import {
    isAdmin,
    isAuth,
@@ -10,7 +13,11 @@ import {
    mailgun,
    payOrderEmailTemplate,
 } from '../utils.js';
+<<<<<<< HEAD
+
+=======
 import MailService from './../services/mail.service.js';
+>>>>>>> master-new
 const orderRouter = express.Router();
 
 orderRouter.get(
@@ -201,5 +208,4 @@ orderRouter.put(
       }
    }),
 );
-
 export default orderRouter;
