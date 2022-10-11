@@ -1,5 +1,13 @@
 import { GET, POST, PATCH, DELETE, PUT } from '../constants/method.constant.js';
 
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ *
+ * => This method dont work because hamne direct get method route mein pass kiya to make this function work make app.all
+ */
 export const getMethod = (req, res, next) => {
    switch (req.method) {
       case GET:

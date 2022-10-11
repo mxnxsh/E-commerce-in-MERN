@@ -36,10 +36,28 @@ const userSchema = new mongoose.Schema(
          rating: { type: Number, default: 0, required: true },
          numReviews: { type: Number, default: 0, required: true },
       },
+      tokens: [
+         {
+            token: {
+               type: String,
+               required: true,
+            },
+         },
+      ],
    },
    {
       timestamps: true,
    },
 );
+
+userSchema.methods.generateAuthToken = async function () {
+   try {
+      let token = jwt.sign({ id: this._id }, process.env.SECRET_KEY);
+      this.tokens = this.tokens.concat({ token });
+   } catch (error) {
+      console.log(error);
+   }
+};
+
 const User = mongoose.model('User', userSchema);
 export default User;
